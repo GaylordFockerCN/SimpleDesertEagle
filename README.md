@@ -1,5 +1,6 @@
 # Hello
 # 我们的沙鹰有开枪动画的！不是直接用远程物品类应付了事的哦
+https://github.com/GaylordFockerCN/SimpleDesertEagel-1.0.2/blob/master/%5B%E7%AE%80%E5%8D%95%E6%B2%99%E9%B9%B0%5DSImple_Desert_Eagle-1.20.1-1.0.2Beta.jar
 ## 这是我的第一个mod项目，之前只有Java基础，花了一周的时间边学边做做出来的，所以比较粗糙敬请谅解...基本都靠MCreator生成大部分代码然后直接上锁自己改
 ## 很多地方都是闭门造车，肯定不如别的枪械模组（不知道是不是只有我用geckolib来做枪械动画..
 ## 还有很多TODO：第三人称下的动作还没加，两手枪相同的时候左手不能开火的bug还没修，在服务器开火会同时触发切物品动画的bug还没修..以后再说吧，一周做成这样已经算满意了
