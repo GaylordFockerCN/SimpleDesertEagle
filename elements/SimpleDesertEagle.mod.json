@@ -1,0 +1,11 @@
+{
+  "_fv": 47,
+  "_type": "tab",
+  "definition": {
+    "name": "Simple Desert Eagle",
+    "icon": {
+      "value": "CUSTOM:DesertEagle"
+    },
+    "showSearch": false
+  }
+}

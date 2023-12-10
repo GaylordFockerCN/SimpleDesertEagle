@@ -1,0 +1,6 @@
+{
+  "parent": "simpledeserteagle:displaysettings/deserteagle.item",
+  "textures": {
+    "layer0": "simpledeserteagle:item/deserteagle-blaze"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "deserteagelcrcfire": {
+    "subtitle": "subtitles.deserteagelcrcfire",
+    "sounds": [
+      {
+        "name": "simpledeserteagle:fire",
+        "stream": false
+      }
+    ]
+  },
+  "deserteagelcrcreload": {
+    "subtitle": "subtitles.deserteagelcrcreload",
+    "sounds": [
+      {
+        "name": "simpledeserteagle:reload",
+        "stream": false
+      }
+    ]
+  }
+}
