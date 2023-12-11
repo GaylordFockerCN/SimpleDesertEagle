@@ -13,7 +13,7 @@ public class DesertEagleItem extends FatherDesertEagleItem implements GeoItem {
 
 	public DesertEagleItem() {
 		super();
-		damage = (float) 0.45;
+		fireDamage = (float) 0.45;
 	}
 
 	@Override

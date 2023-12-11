@@ -4,12 +4,12 @@ license="Academic Free License v3.0"
 
 [[mods]]
 modId="simpledeserteagle"
-version="1.0.1"
+version="1.1.0"
 displayName="SimpleDesertEagle"
 credits="Programmer:LZY_Pinero Texture:Ankonzy"
 displayURL="https://afdian.net/a/lzypinero"
 authors="LZY_Pinero"
-description="只有Java基础的小白花了一周做的一个简单的有bug的沙鹰模组，基于geckolib4.2.2做的动画，源码还有很多TODO...目前双持同一种沙鹰只能主手开火，并且没有第三人称动画。其实主要逻辑三天就做好了，但是为了做双持又花了后面四天疯狂调试"
+description="1.0.0重置版，用磨损来保存子弹数，因为磨损用的就是NBT保存数据，所以沙鹰依然抽风（上当了QWQ）"
 
 [[dependencies.simpledeserteagle]]
     modId="minecraft"

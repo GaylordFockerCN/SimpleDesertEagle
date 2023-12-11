@@ -14,7 +14,7 @@ public class DesertEagleBlazeItem extends FatherDesertEagleItem implements GeoIt
 
 	public DesertEagleBlazeItem() {
 		super();
-		damage = (float) 1.35;
+		fireDamage = (float) 1.35;
 		ammoType = SimpledeserteagleModItems.DESERT_EAGLE_AMMO_PLUS;
 	}
 

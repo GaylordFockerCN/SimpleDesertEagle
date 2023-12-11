@@ -1,10 +1,8 @@
 package net.pinero.simpledeserteagle.procedures;
 
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
-import net.pinero.simpledeserteagle.init.SimpledeserteagleModItems;
 
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -12,7 +10,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,52 +24,45 @@ import net.minecraft.commands.CommandSource;
 
 public class DesertEagleReloadProcedure {
 
-	public static int totalNeed = 0;
-	private static void procedure(FatherDesertEagleItem handItem,Entity entity,LevelAccessor world,boolean isMainHand) {
+	private static void procedure(ItemStack handItemStake,Entity entity,LevelAccessor world,Item ammo,boolean isMainHand) {
 		double x = entity.getX();
 		double y = entity.getY();
 		double z = entity.getZ();
 
 		//延迟实现换弹逻辑，等动画和音效放完
-		new Thread(() -> {
+		new Thread(() -> {//防止sleep卡死
 
 			try {
-				int need = handItem.need();
-				Item ammo = handItem.getAmmoType().get();
-				Player player = (ServerPlayer) entity;//???妈的为什么改成Player就会一开火子弹就复原。。。搞不懂底层。。
-				ItemStack stack = ProjectileWeaponItem.getHeldProjectile(player, e -> e.getItem() == ammo);
-
-				boolean canFind = false;
-				if (stack == ItemStack.EMPTY) {
-					totalNeed = 0;
-					canFind = searchItem(player,ammo,need,handItem,world);
-				}
-
-				if(canFind){
-					handItem.reload(totalNeed);
+				int need = handItemStake.getDamageValue();
+				Player player = (Player)entity;
+				int total = searchItem(player,ammo,need);
+				if(total>0){
+					handItemStake.getOrCreateTag().putBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG,false);
 					//播放动画
 					if (world instanceof ServerLevel serverLevel) {
 						//防止开火时换弹
-						if(player.getCooldowns().isOnCooldown(handItem))return;
-						handItem.reloadAnim(serverLevel, player, isMainHand?player.getMainHandItem():player.getOffhandItem());
+						if(player.getCooldowns().isOnCooldown(handItemStake.getItem()))return;
+						((FatherDesertEagleItem)handItemStake.getItem()).reloadAnim(serverLevel, player, handItemStake);
 					}
 					//播放音效
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {
 							_level.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcreload")), SoundSource.PLAYERS, 1, 1);
-						} else {
-//							_level.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcreload")), SoundSource.PLAYERS, 1, 1, false);
 						}
 					}
 					Thread.sleep(FatherDesertEagleItem.RELOAD_TIME);
+					handItemStake.setDamageValue(need - total);
+					handItemStake.getOrCreateTag().putBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG,true);
+
+					//显示子弹数量信息
 					if (world instanceof ServerLevel _level){
-						Item anotherHandItem = ((Player)entity).getItemInHand(isMainHand?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND).getItem();
+						ItemStack anotherHandItemStake = player.getItemInHand(isMainHand?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND);
 
-						String content = (isMainHand?"Main Hand Ammo:":" Off Hand Ammo:") +handItem.getAmmo() + "/" + FatherDesertEagleItem.MAX_AMMO;
+						String content = (isMainHand?"Main Hand Ammo:":" Off Hand Ammo:") +getBulletCount(handItemStake)+ "/" + FatherDesertEagleItem.MAX_AMMO;
 
-						if(anotherHandItem instanceof FatherDesertEagleItem offHandItem && offHandItem.getClass()!=handItem.getClass()){//如果左右手相同会有很多bug..
-							content = "Off Hand Ammo:"+ ( isMainHand?offHandItem.getAmmo():(handItem.getAmmo()) )+ "/"+FatherDesertEagleItem.MAX_AMMO+
-									"      Main Hand Ammo:"+( isMainHand?handItem.getAmmo():(offHandItem.getAmmo()) )+ "/"+FatherDesertEagleItem.MAX_AMMO;
+						if(anotherHandItemStake.getItem() instanceof FatherDesertEagleItem offHandItem){
+							content = "Off Hand Ammo:"+ ( isMainHand?getBulletCount(anotherHandItemStake):getBulletCount(handItemStake)) + "/"+FatherDesertEagleItem.MAX_AMMO+
+									"      Main Hand Ammo:"+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+FatherDesertEagleItem.MAX_AMMO;
 						}
 
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
@@ -92,62 +82,64 @@ public class DesertEagleReloadProcedure {
 	}
 
 	//递归搜索物品栈
-	private static boolean searchItem(Player player, Item ammo,int need,FatherDesertEagleItem handItem,LevelAccessor world){
+	private static int searchItem(Player player, Item ammo,int need){
+		int total = 0;
+
 		ItemStack stack = ItemStack.EMPTY;
-		for (int i = 0; i < player.getInventory().items.size(); i++) {
-			ItemStack teststack = player.getInventory().items.get(i);
-			if (teststack != null && teststack.getItem() == ammo ) {
-				if( teststack ==player.getItemInHand(InteractionHand.MAIN_HAND) ||  teststack == player.getItemInHand(InteractionHand.OFF_HAND)){
-					if (world instanceof ServerLevel _level)
-	 					_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(player.getX(), player.getY(), player.getZ()), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-							"title @p actionbar \"Don't put ammo in hand!\"");
-					continue;
+		if(ammo == player.getItemInHand(InteractionHand.MAIN_HAND).getItem()){
+			stack = player.getMainHandItem();
+		}else if(ammo == player.getItemInHand(InteractionHand.OFF_HAND).getItem()){
+			stack = player.getOffhandItem();
+		}else {
+			for (int i = 0; i < player.getInventory().items.size(); i++) {
+				ItemStack teststack = player.getInventory().items.get(i);
+				if (teststack != null && teststack.getItem() == ammo ) {
+					stack = teststack;
+					break;
 				}
-				stack = teststack;
-				break;
 			}
 		}
 
 		if (stack != ItemStack.EMPTY) {
 			if (stack.getCount() >= need) {
 				stack.shrink(need);
-				totalNeed+=need;
-
+				total +=need;
 			} else {
 				int cnt = stack.getCount();
 				stack.shrink(cnt);
-				totalNeed+=cnt;
-				searchItem(player,ammo,need - cnt,handItem,world);
+				total += searchItem(player,ammo,need - cnt);
 			}
-			return true;
+			return total;
 		}else{
-			return false;
+			return 0;
 		}
 	}
 	public static void execute(LevelAccessor world, Entity entity ) {
 
-		if (entity == null || world.isClientSide())
+		if (entity == null)
 			return;
-		if(entity instanceof ServerPlayer player){//防止还没开火就换弹导致空指针异常（获取player默认在use的时候）
-			for (int i = 0; i < player.getInventory().items.size(); i++) {
-				ItemStack teststack = player.getInventory().items.get(i);
-				if (teststack != null && teststack.getItem() instanceof FatherDesertEagleItem item) {
-					item.player = player;
-					//item.reload(teststack.getOrCreateTag().getInt(FatherDesertEagleItem.AMMO_TAG_NAME));
-				}
+
+		if(entity instanceof LivingEntity _livEnt){
+			ItemStack mainHandItem = _livEnt.getMainHandItem();
+			ItemStack offhandItem = _livEnt.getOffhandItem();
+			if(mainHandItem.getItem() instanceof FatherDesertEagleItem item && mainHandItem.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG) && !isFull(mainHandItem)){
+				procedure(_livEnt.getMainHandItem(),entity,world,item.getAmmoType().get(),true);
+			}
+			if(offhandItem.getItem() instanceof FatherDesertEagleItem item && offhandItem.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG) && !isFull(offhandItem)){
+				procedure(_livEnt.getOffhandItem(),entity,world,item.getAmmoType().get(),false);
 			}
 		}
-		//右手持枪
-		if((entity instanceof LivingEntity _livEnt ? _livEnt.getMainHandItem() : ItemStack.EMPTY).getItem() instanceof FatherDesertEagleItem mainHandItem
-				&&!mainHandItem.isReloading() && !mainHandItem.isFull()) {
-			procedure(mainHandItem,entity,world,true);
-		}
 
-		//TODO:两把一样的状态下似乎不管用qwq
-		if((entity instanceof LivingEntity _livEnt ? _livEnt.getOffhandItem() : ItemStack.EMPTY).getItem() instanceof FatherDesertEagleItem offHandItem
-				&&!offHandItem.isReloading() && !offHandItem.isFull()){
-			procedure(offHandItem,entity,world,false);
-		}
+	}
 
+	private static int getBulletCount(ItemStack stack){
+		if(stack.getItem() instanceof FatherDesertEagleItem){
+			return stack.getMaxDamage()-stack.getDamageValue();
+		}
+		return 0;
+	}
+
+	private static boolean isFull(ItemStack stack){
+		return stack.getDamageValue() == 0;
 	}
 }

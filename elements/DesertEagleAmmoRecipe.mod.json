@@ -3,7 +3,7 @@
   "_type": "recipe",
   "definition": {
     "recipeType": "Crafting",
-    "recipeRetstackSize": 4,
+    "recipeRetstackSize": 8,
     "group": "desert_eagle_ammo",
     "cookingBookCategory": "MISC",
     "xpReward": 0.0,
