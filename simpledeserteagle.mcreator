@@ -339,6 +339,35 @@
           "src/main/resources/data/simpledeserteagle/recipes/diamond_desert_eagle_recipe.json"
         ]
       }
+    },
+    {
+      "name": "GoldenDesertEagle",
+      "type": "animateditem",
+      "sortid": 22,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "golden_desert_eagle",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/simpledeserteagle/models/item/golden_desert_eagle.json",
+          "src/main/java/net/pinero/simpledeserteagle/item/renderer/GoldenDesertEagleItemRenderer.java",
+          "src/main/java/net/pinero/simpledeserteagle/item/model/GoldenDesertEagleItemModel.java",
+          "src/main/java/net/pinero/simpledeserteagle/item/GoldenDesertEagleItem.java"
+        ]
+      }
+    },
+    {
+      "name": "GoldenDesertEagleRecipe",
+      "type": "recipe",
+      "sortid": 23,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "golden_desert_eagle_recipe",
+      "metadata": {
+        "files": [
+          "src/main/resources/data/simpledeserteagle/recipes/golden_desert_eagle_recipe.json"
+        ]
+      }
     }
   ],
   "variable_elements": [],
@@ -364,6 +393,7 @@
     "en_us": {
       "item_group.simpledeserteagle.simple_desert_eagle": "Simple Desert Eagle",
       "item.simpledeserteagle.desert_eagle_bullet": "Desert Eagel Bullet Effect",
+      "item.simpledeserteagle.golden_desert_eagle": "Golden Desert Eagle",
       "subtitles.deserteagelreload": "Desert Eagle Reload",
       "item.simpledeserteagle.desert_eagle_ammo": "Desert Eagle Ammo",
       "item.simpledeserteagle.desert_eagle_blaze": "Desert Eagle Blaze",
@@ -380,6 +410,7 @@
     "zh_cn": {
       "item_group.simpledeserteagle.simple_desert_eagle": "简单沙鹰",
       "item.simpledeserteagle.desert_eagle_bullet": "沙鹰子弹效果",
+      "item.simpledeserteagle.golden_desert_eagle": "黄金沙鹰",
       "subtitles.deserteagelreload": "沙鹰换弹",
       "item.simpledeserteagle.desert_eagle_ammo": "沙鹰弹药",
       "item.simpledeserteagle.desert_eagle_blaze": "沙漠之鹰-炽热之焰",
