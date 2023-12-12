@@ -69,7 +69,7 @@ public class DesertEagleRightClickAirProcedure {
 					}
 
 					if (entity instanceof Player _player)
-						_player.getCooldowns().addCooldown(handItem, 8);
+						_player.getCooldowns().addCooldown(handItem, handItem.getCoolDownTick());
 
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {

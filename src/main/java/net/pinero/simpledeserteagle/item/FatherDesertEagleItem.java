@@ -47,6 +47,8 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 
 	protected float fireDamage = 0;//伤害值
 
+	protected int coolDownTick = 8;
+
 	protected float power = 15;//初速度
 
 	public final static int MAX_AMMO = 7;
@@ -164,6 +166,7 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 		if(player != null){
 			list.add(Component.literal("Ammo: "+(MAX_AMMO - itemstack.getDamageValue())+"/"+MAX_AMMO));
 			list.add(Component.literal("Damage: "+ fireDamage *16));
+			list.add(Component.literal("Cooldown: "+coolDownTick*0.05+"s"));
 			list.add(Component.literal("Ammo type: "+((ammoType==SimpledeserteagleModItems.DESERT_EAGLE_AMMO)?"Common":"Advanced")));
 		}
 	}
@@ -171,6 +174,10 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 
 	public float getFireDamage(){
 		return fireDamage;
+	}
+
+	public int getCoolDownTick(){
+		return coolDownTick;
 	}
 
 	public float getPower(){

@@ -24,6 +24,7 @@ import java.util.function.Consumer;
 public class DiamondDesertEagleItem extends DesertEagleBlazeItem implements GeoItem {
 	public DiamondDesertEagleItem() {
 		super();
+		coolDownTick = 8;
 	}
 
 	@Override

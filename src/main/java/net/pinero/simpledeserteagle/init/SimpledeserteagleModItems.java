@@ -4,6 +4,7 @@
  */
 package net.pinero.simpledeserteagle.init;
 
+import net.pinero.simpledeserteagle.item.GoldenDesertEagleItem;
 import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
 import net.pinero.simpledeserteagle.item.DiamondDesertEagleItem;
 import net.pinero.simpledeserteagle.item.DesertEagleItem;
@@ -30,4 +31,5 @@ public class SimpledeserteagleModItems {
 	public static final RegistryObject<Item> COPPER_DESERT_EAGLE = REGISTRY.register("copper_desert_eagle", () -> new CopperDesertEagleItem());
 	public static final RegistryObject<Item> DESERT_EAGLE_BLAZE = REGISTRY.register("desert_eagle_blaze", () -> new DesertEagleBlazeItem());
 	public static final RegistryObject<Item> DIAMOND_DESERT_EAGLE = REGISTRY.register("diamond_desert_eagle", () -> new DiamondDesertEagleItem());
+	public static final RegistryObject<Item> GOLDEN_DESERT_EAGLE = REGISTRY.register("golden_desert_eagle", () -> new GoldenDesertEagleItem());
 }
