@@ -36,6 +36,7 @@ public class DesertEagleReloadProcedure {
 				int need = handItemStake.getDamageValue();
 				Player player = (Player)entity;
 				int total = searchItem(player,ammo,need);
+				System.out.println("need"+need+" total"+total);
 				if(total>0){
 					handItemStake.getOrCreateTag().putBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG,false);
 					//播放动画
@@ -84,11 +85,10 @@ public class DesertEagleReloadProcedure {
 	//递归搜索物品栈
 	private static int searchItem(Player player, Item ammo,int need){
 		int total = 0;
-
 		ItemStack stack = ItemStack.EMPTY;
-		if(ammo == player.getItemInHand(InteractionHand.MAIN_HAND).getItem()){
+		if(ammo == player.getMainHandItem().getItem()){
 			stack = player.getMainHandItem();
-		}else if(ammo == player.getItemInHand(InteractionHand.OFF_HAND).getItem()){
+		}else if(ammo == player.getOffhandItem().getItem()){
 			stack = player.getOffhandItem();
 		}else {
 			for (int i = 0; i < player.getInventory().items.size(); i++) {
@@ -103,13 +103,14 @@ public class DesertEagleReloadProcedure {
 		if (stack != ItemStack.EMPTY) {
 			if (stack.getCount() >= need) {
 				stack.shrink(need);
-				total +=need;
+				return need;
 			} else {
 				int cnt = stack.getCount();
 				stack.shrink(cnt);
+				total += cnt;
 				total += searchItem(player,ammo,need - cnt);
+				return total;
 			}
-			return total;
 		}else{
 			return 0;
 		}
