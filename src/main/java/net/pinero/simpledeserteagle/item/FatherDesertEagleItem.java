@@ -43,8 +43,6 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 
 	public static final int RELOAD_TIME = 2000;
 
-	public Player player = null;//为了实现获取NBT的操作（快夸我天才，虽然高耦合）(被迫用Public，在进入游戏时设置，否则容易为null
-
 	protected float fireDamage = 0;//伤害值
 
 	protected int coolDownTick = 8;
@@ -52,8 +50,6 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 	protected float power = 15;//初速度
 
 	public final static int MAX_AMMO = 7;
-
-	private boolean hadInit = false;//判断是否第一次被用过，没有则初始化子弹
 
 	protected RegistryObject<Item> ammoType;
 
@@ -163,12 +159,10 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 
 	@Override
 	public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
-		if(player != null){
-			list.add(Component.literal("Ammo: "+(MAX_AMMO - itemstack.getDamageValue())+"/"+MAX_AMMO));
-			list.add(Component.literal("Damage: "+ fireDamage *16));
-			list.add(Component.literal("Cooldown: "+coolDownTick*0.05+"s"));
-			list.add(Component.literal("Ammo type: "+((ammoType==SimpledeserteagleModItems.DESERT_EAGLE_AMMO)?"Common":"Advanced")));
-		}
+		list.add(Component.literal("Ammo: "+(MAX_AMMO - itemstack.getDamageValue())+"/"+MAX_AMMO));
+		list.add(Component.literal("Damage: "+ fireDamage *16));
+		list.add(Component.literal("Cooldown: "+coolDownTick*0.05+"s"));
+		list.add(Component.literal("Ammo type: "+((ammoType==SimpledeserteagleModItems.DESERT_EAGLE_AMMO)?"Common":"Advanced")));
 	}
 
 

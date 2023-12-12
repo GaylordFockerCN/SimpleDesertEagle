@@ -13,7 +13,7 @@ public class GoldenDesertEagleItem extends DesertEagleBlazeItem implements GeoIt
 	public GoldenDesertEagleItem() {
 		super();
 		fireDamage = (float) 1.0;
-		coolDownTick = 6;
+		coolDownTick = 5;
 	}
 
 	@Override
