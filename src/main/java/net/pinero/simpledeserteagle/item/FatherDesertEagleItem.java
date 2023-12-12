@@ -72,6 +72,7 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 		});
 	}
 
+
 	public void getTransformType(ItemDisplayContext type) {
 		this.transformType = type;
 	}
@@ -122,6 +123,12 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 		data.add(new AnimationController<>(this, "Reload", 0, state -> PlayState.STOP)
 				.triggerableAnim("reload", RawAnimation.begin().thenPlay("animation.DesertEagle.reload")));
 
+	}
+
+	@Override
+	public void onCraftedBy(ItemStack stack, Level p_41448_, Player p_41449_) {
+		super.onCraftedBy(stack, p_41448_, p_41449_);
+		stack.setDamageValue(MAX_AMMO);//初始弹药应该为零。。
 	}
 
 	@Override
