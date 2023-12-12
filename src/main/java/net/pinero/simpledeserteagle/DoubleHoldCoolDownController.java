@@ -42,11 +42,13 @@ public class DoubleHoldCoolDownController {
 			ItemStack mainHandStack = player.getMainHandItem();
 			if(mainHandStack.getItem() instanceof FatherDesertEagleItem mainHandItem&& offHandStack.getItem() instanceof FatherDesertEagleItem offHandItem){
 				if(event.getHand() == InteractionHand.MAIN_HAND){
-					if(!player.getCooldowns().isOnCooldown(offHandItem)&& mainHandStack.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG)){//必须加上判断能否开火，否则会导致左手可开火但是右手得先装弹
+					if(!player.getCooldowns().isOnCooldown(offHandItem)&& mainHandStack.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG)
+					&& mainHandStack.getDamageValue()<mainHandItem.getMaxDamage(mainHandStack)){
 						player.getCooldowns().addCooldown(offHandItem,1);
 					}
 				}else{
-					if((!player.getCooldowns().isOnCooldown(mainHandItem)) && offHandStack.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG)){
+					if((!player.getCooldowns().isOnCooldown(mainHandItem)) && offHandStack.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG)
+					&& offHandStack.getDamageValue()<offHandItem.getMaxDamage(offHandStack)){
 						player.getCooldowns().addCooldown(mainHandItem,1);
 					}
 				}

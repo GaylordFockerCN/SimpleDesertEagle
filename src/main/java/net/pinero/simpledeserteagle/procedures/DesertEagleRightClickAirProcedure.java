@@ -37,8 +37,11 @@ public class DesertEagleRightClickAirProcedure {
 			ItemStack handItemStake = (hand == InteractionHand.MAIN_HAND?_livEnt.getMainHandItem():_livEnt.getOffhandItem());
 			if(handItemStake.getItem() instanceof FatherDesertEagleItem handItem){
 				boolean isBroken = handItemStake.getDamageValue() >= handItem.getMaxDamage(handItemStake);
-
-				if (handItemStake.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG) && !isBroken) {
+				boolean isCooldown = false;
+				if (entity instanceof Player _player){
+					isCooldown = _player.getCooldowns().isOnCooldown(handItem);
+				}
+				if (handItemStake.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG) && !isBroken &&!isCooldown) {
 					if (world instanceof ServerLevel projectileLevel) {
 						Projectile _entityToSpawn =	new Object() {
 							public Projectile getArrow(Level level, Entity shooter, float damage, int knockBack, byte piercing) {
