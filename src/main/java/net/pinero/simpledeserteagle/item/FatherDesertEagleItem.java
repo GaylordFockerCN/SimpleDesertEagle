@@ -61,7 +61,7 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 	protected RegistryObject<Item> ammoType;
 
 	public FatherDesertEagleItem() {
-		super(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).setNoRepair().defaultDurability(MAX_AMMO));//引入弹匣了再把这个删了
+		super(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).defaultDurability(MAX_AMMO));//引入弹匣了再把这个删了
 		SingletonGeoAnimatable.registerSyncedAnimatable(this);
 		ammoType = SimpledeserteagleModItems.DESERT_EAGLE_AMMO;
 
