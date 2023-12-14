@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "heavy_desert_eagle",
+  "category": "equipment",
+  "pattern": [
+    "012",
+    " 45",
+    "  8"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:cobbled_deepslate"
+    },
+    "1": {
+      "item": "minecraft:diorite"
+    },
+    "2": {
+      "item": "minecraft:granite"
+    },
+    "4": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "5": {
+      "item": "minecraft:diorite"
+    },
+    "8": {
+      "item": "minecraft:cobbled_deepslate"
+    }
+  },
+  "result": {
+    "item": "simpledeserteagle:heavy_desert_eagle",
+    "count": 1
+  }
+}

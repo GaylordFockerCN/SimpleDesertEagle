@@ -2,6 +2,7 @@ package net.pinero.simpledeserteagle.init;
 
 import software.bernie.geckolib.animatable.GeoItem;
 
+import net.pinero.simpledeserteagle.item.HeavyDesertEagleItem;
 import net.pinero.simpledeserteagle.item.GoldenDesertEagleItem;
 import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
 import net.pinero.simpledeserteagle.item.DiamondDesertEagleItem;
@@ -81,6 +82,11 @@ public class ItemAnimationFactory {
 						animatable.animationprocedure = animation;
 						disableUseAnim();
 					}
+				if (event.player.getMainHandItem().getItem() instanceof HeavyDesertEagleItem animatable)
+					if (event.player.level().isClientSide()) {
+						animatable.animationprocedure = animation;
+						disableUseAnim();
+					}
 			}
 			if (!event.player.getOffhandItem().getOrCreateTag().getString("geckoAnim").equals("") && !(event.player.getOffhandItem().getItem() instanceof ArmorItem)) {
 				animation = event.player.getOffhandItem().getOrCreateTag().getString("geckoAnim");
@@ -111,6 +117,11 @@ public class ItemAnimationFactory {
 						disableUseAnim();
 					}
 				if (event.player.getOffhandItem().getItem() instanceof GoldenDesertEagleItem animatable)
+					if (event.player.level().isClientSide()) {
+						animatable.animationprocedure = animation;
+						disableUseAnim();
+					}
+				if (event.player.getOffhandItem().getItem() instanceof HeavyDesertEagleItem animatable)
 					if (event.player.level().isClientSide()) {
 						animatable.animationprocedure = animation;
 						disableUseAnim();

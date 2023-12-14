@@ -368,6 +368,35 @@
           "src/main/resources/data/simpledeserteagle/recipes/golden_desert_eagle_recipe.json"
         ]
       }
+    },
+    {
+      "name": "HeavyDesertEagle",
+      "type": "animateditem",
+      "sortid": 24,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "heavy_desert_eagle",
+      "metadata": {
+        "files": [
+          "src/main/java/net/pinero/simpledeserteagle/item/model/HeavyDesertEagleItemModel.java",
+          "src/main/java/net/pinero/simpledeserteagle/item/renderer/HeavyDesertEagleItemRenderer.java",
+          "src/main/resources/assets/simpledeserteagle/models/item/heavy_desert_eagle.json",
+          "src/main/java/net/pinero/simpledeserteagle/item/HeavyDesertEagleItem.java"
+        ]
+      }
+    },
+    {
+      "name": "HeavyDesertEagleRecipe",
+      "type": "recipe",
+      "sortid": 25,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "heavy_desert_eagle_recipe",
+      "metadata": {
+        "files": [
+          "src/main/resources/data/simpledeserteagle/recipes/heavy_desert_eagle_recipe.json"
+        ]
+      }
     }
   ],
   "variable_elements": [],
@@ -401,6 +430,7 @@
       "item.simpledeserteagle.diamond_desert_eagle": "Diamond Desert Eagle",
       "subtitles.deserteagelcrcfire": "DesertEagleFire",
       "key.simpledeserteagle.reload": "Reload",
+      "item.simpledeserteagle.heavy_desert_eagle": "Heavy Desert Eagle",
       "subtitles.deserteagelfire": "Desert Eagle Fire",
       "item.simpledeserteagle.copper_desert_eagle": "Copper Desert Eagle",
       "item.simpledeserteagle.desert_eagle_ammo_plus": "Desert Eagle Ammo Plus",
@@ -418,6 +448,7 @@
       "item.simpledeserteagle.diamond_desert_eagle": "钻石沙鹰",
       "subtitles.deserteagelcrcfire": "沙鹰开火",
       "key.simpledeserteagle.reload": "换弹",
+      "item.simpledeserteagle.heavy_desert_eagle": "重型沙鹰",
       "subtitles.deserteagelfire": "沙鹰开火",
       "item.simpledeserteagle.copper_desert_eagle": "铜制沙鹰",
       "item.simpledeserteagle.desert_eagle_ammo_plus": "高级沙鹰弹药",

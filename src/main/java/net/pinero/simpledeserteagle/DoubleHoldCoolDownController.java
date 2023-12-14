@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RenderArmEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -17,6 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
+import net.pinero.simpledeserteagle.item.HeavyDesertEagleItem;
 
 /**
  * @author LZY_Pinero
@@ -57,8 +59,15 @@ public class DoubleHoldCoolDownController {
 				}
 
 			}
-
 		}
+
+//		@SubscribeEvent
+//		public static void onHoldHeavy(TickEvent.PlayerTickEvent event) {
+//			Player player = event.player;
+//			if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof HeavyDesertEagleItem ||player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof HeavyDesertEagleItem){
+//				player.setSpeed(0.5f);
+//			}else player.setSpeed(1);
+//		}
 
 	}
 }

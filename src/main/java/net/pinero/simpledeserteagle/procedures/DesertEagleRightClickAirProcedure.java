@@ -76,6 +76,7 @@ public class DesertEagleRightClickAirProcedure {
 								entityToSpawn.setKnockback(knockBack);
 								entityToSpawn.setSilent(true);
 								entityToSpawn.setPierceLevel(piercing);
+								entityToSpawn.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
 								return entityToSpawn;
 							}
 						}.getArrow(projectileLevel, entity, handItem.getFireDamage(), 1, (byte) 5);

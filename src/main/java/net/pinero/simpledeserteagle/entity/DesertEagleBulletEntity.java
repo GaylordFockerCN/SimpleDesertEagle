@@ -1,8 +1,11 @@
 
 package net.pinero.simpledeserteagle.entity;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModItems;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModEntities;
 
@@ -64,8 +67,16 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.inGround)
-			this.discard();
+		if (this.inGround){
+			new Thread(()->{
+				try {
+					Thread.sleep(3000);//保存3s后消失
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+				this.discard();
+			}).start();
+		}
 	}
 
 	@Override
@@ -75,8 +86,20 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 				level().getBlockState(p_36755_.getBlockPos()).getBlock() instanceof StainedGlassPaneBlock ||
 					level().getBlockState(p_36755_.getBlockPos()).getBlock() instanceof IronBarsBlock ironBarsBlock &&ironBarsBlock.getName().toString().contains("block.minecraft.glass_pane")) {
 			level().destroyBlock(p_36755_.getBlockPos(), true);
+			this.discard();
 		}
 	}
+
+	//TODO:护甲穿透和爆头？
+//	@Override
+//	protected void onHitEntity(EntityHitResult p_36757_) {
+//		super.onHitEntity(p_36757_);
+//		Entity entity = p_36757_.getEntity();
+//		if(entity instanceof LivingEntity livingEntity){
+//			livingEntity.getArmorValue();
+//		}
+//		p_36757_.getEntity().getBoundingBox();
+//	}
 
 	public static DesertEagleBulletEntity shoot(Level world, LivingEntity entity, RandomSource random, float power, double damage, int knockback) {
 		DesertEagleBulletEntity entityarrow = new DesertEagleBulletEntity(SimpledeserteagleModEntities.DESERT_EAGLE_BULLET.get(), entity, world);
@@ -86,8 +109,6 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 		entityarrow.setBaseDamage(damage);
 		entityarrow.setKnockback(knockback);
 		world.addFreshEntity(entityarrow);
-		//world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcfire")), SoundSource.PLAYERS, 1,
-		//		1f / (random.nextFloat() * 0.5f + 1) + (power / 2));
 		return entityarrow;
 	}
 
@@ -102,8 +123,6 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 		entityarrow.setKnockback(1);
 		entityarrow.setCritArrow(false);
 		entity.level().addFreshEntity(entityarrow);
-//		entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcfire")), SoundSource.PLAYERS, 1,
-//				1f / (RandomSource.create().nextFloat() * 0.5f + 1));
 		return entityarrow;
 	}
 }
