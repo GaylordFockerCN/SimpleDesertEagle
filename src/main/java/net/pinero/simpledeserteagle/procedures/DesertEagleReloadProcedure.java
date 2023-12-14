@@ -61,7 +61,7 @@ public class DesertEagleReloadProcedure {
 					//handItemStake.setDamageValue(need - total);
 
 					ItemStack newBullet = handItemStake.copy();
-					handItemStake.setDamageValue(handItemStake.getMaxDamage());//修复版本更新导致的物品出现磨损的问题
+					handItemStake.setDamageValue(0);//修复版本更新导致的物品出现磨损的问题
 					newBullet.setCount(1);
 					newBullet.setDamageValue(0);
 					FatherDesertEagleItem.setBulletItemStack(handItemStake,newBullet,0);
