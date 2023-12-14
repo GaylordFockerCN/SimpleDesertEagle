@@ -432,8 +432,8 @@
   "workspaceSettings": {
     "modid": "simpledeserteagle",
     "modName": "SimpleDesertEagle",
-    "version": "1.1.0",
-    "description": "1.0.0重置版，用磨损来保存子弹数，因为磨损用的就是NBT保存数据，所以沙鹰依然抽风（上当了QWQ）",
+    "version": "1.4.0",
+    "description": "阿巴阿巴阿巴懒得再写了看github吧",
     "author": "LZY_Pinero",
     "websiteURL": "https://afdian.net/a/lzypinero",
     "license": "Academic Free License v3.0",
