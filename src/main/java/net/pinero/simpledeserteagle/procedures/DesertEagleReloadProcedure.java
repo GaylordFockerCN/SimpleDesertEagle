@@ -1,6 +1,8 @@
 package net.pinero.simpledeserteagle.procedures;
 
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
 
@@ -33,28 +35,38 @@ public class DesertEagleReloadProcedure {
 		new Thread(() -> {//防止sleep卡死
 
 			try {
-				int need = handItemStake.getDamageValue();
+				int need = 0;
+				ItemStack bullet = FatherDesertEagleItem.getBulletItemStack(handItemStake,0);
+				if(bullet.isEmpty()){
+					need = FatherDesertEagleItem.MAX_AMMO;
+				}else need = bullet.getDamageValue();
 				Player player = (Player)entity;
 				int total = searchItem(player,ammo,need);
-				System.out.println("need"+need+" total"+total);
 				if(total>0){
-					handItemStake.getOrCreateTag().putBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG,false);
+					FatherDesertEagleItem handItem = (FatherDesertEagleItem) handItemStake.getItem();
+					handItem.isReloading = true;//限制同时换弹
+					//handItemStake.getOrCreateTag().putBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG,false);
 					//播放动画
 					if (world instanceof ServerLevel serverLevel) {
 						//防止开火时换弹
 						if(player.getCooldowns().isOnCooldown(handItemStake.getItem()))return;
+						//播放动画
 						((FatherDesertEagleItem)handItemStake.getItem()).reloadAnim(serverLevel, player, handItemStake);
-					}
-					//播放音效
-					if (world instanceof Level _level) {
-						if (!_level.isClientSide()) {
-							_level.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcreload")), SoundSource.PLAYERS, 1, 1);
-						}
-					}
-					Thread.sleep(FatherDesertEagleItem.RELOAD_TIME);
-					handItemStake.setDamageValue(need - total);
-					handItemStake.getOrCreateTag().putBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG,true);
+						//播放音效
+						serverLevel.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcreload")), SoundSource.HOSTILE, 1, 1);
 
+					}
+
+					Thread.sleep(FatherDesertEagleItem.RELOAD_TIME);
+					//handItemStake.setDamageValue(need - total);
+
+					ItemStack newBullet = handItemStake.copy();
+					newBullet.setCount(1);
+					//newBullet.setDamageValue(need - total);
+					FatherDesertEagleItem.setBulletItemStack(handItemStake,newBullet,0);
+
+					//handItemStake.getOrCreateTag().putBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG,true);
+					handItem.isReloading = false;
 					//显示子弹数量信息
 					if (world instanceof ServerLevel _level){
 						ItemStack anotherHandItemStake = player.getItemInHand(isMainHand?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND);
@@ -116,18 +128,36 @@ public class DesertEagleReloadProcedure {
 		}
 	}
 	public static void execute(LevelAccessor world, Entity entity ) {
-
+		double x = entity.getX();
+		double y = entity.getY();
+		double z = entity.getZ();
 		if (entity == null)
 			return;
 
 		if(entity instanceof LivingEntity _livEnt){
 			ItemStack mainHandItem = _livEnt.getMainHandItem();
 			ItemStack offhandItem = _livEnt.getOffhandItem();
-			if(mainHandItem.getItem() instanceof FatherDesertEagleItem item && mainHandItem.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG) && !isFull(mainHandItem)){
-				procedure(_livEnt.getMainHandItem(),entity,world,item.getAmmoType().get(),true);
+			if(mainHandItem.getItem() instanceof FatherDesertEagleItem item /*mainHandItem.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG)*/){
+				if(isFull(mainHandItem)){
+					if (world instanceof ServerLevel _level)
+						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+								"title @p actionbar \"Main hand ammo is FULL!\"");
+				} else if (item.isReloading) {
+					if (world instanceof ServerLevel _level)
+						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+								"title @p actionbar \"Main hand is Reloading!\"");
+				}else procedure(_livEnt.getMainHandItem(),entity,world,item.getAmmoType().get(),true);
 			}
-			if(offhandItem.getItem() instanceof FatherDesertEagleItem item && offhandItem.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG) && !isFull(offhandItem)){
-				procedure(_livEnt.getOffhandItem(),entity,world,item.getAmmoType().get(),false);
+			if(offhandItem.getItem() instanceof FatherDesertEagleItem item && /*offhandItem.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG)*/!item.isReloading  && !isFull(offhandItem)){
+				if(isFull(offhandItem)){
+					if (world instanceof ServerLevel _level)
+						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+								"title @p actionbar \"Offhand ammo is FULL!\"");
+				} else if (item.isReloading) {
+					if (world instanceof ServerLevel _level)
+						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
+								"title @p actionbar \"Offhand is Reloading!\"");
+				}else procedure(_livEnt.getOffhandItem(),entity,world,item.getAmmoType().get(),false);
 			}
 		}
 
@@ -135,12 +165,15 @@ public class DesertEagleReloadProcedure {
 
 	private static int getBulletCount(ItemStack stack){
 		if(stack.getItem() instanceof FatherDesertEagleItem){
-			return stack.getMaxDamage()-stack.getDamageValue();
+			ItemStack bullet = FatherDesertEagleItem.getBulletItemStack(stack,0);
+			return bullet.getMaxDamage()-bullet.getDamageValue();
 		}
 		return 0;
 	}
 
-	private static boolean isFull(ItemStack stack){
-		return stack.getDamageValue() == 0;
+	private static boolean isFull(ItemStack gun){
+		ItemStack bullet = FatherDesertEagleItem.getBulletItemStack(gun,0);
+		if(bullet.isEmpty())return false;
+		return bullet.getDamageValue()==0;
 	}
 }

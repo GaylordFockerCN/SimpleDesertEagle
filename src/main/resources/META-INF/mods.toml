@@ -4,12 +4,12 @@ license="Academic Free License v3.0"
 
 [[mods]]
 modId="simpledeserteagle"
-version="1.2.0"
+version="1.4.0"
 displayName="SimpleDesertEagle"
 credits="Programmer:LZY_Pinero Texture:Ankonzy"
 displayURL="https://afdian.net/a/lzypinero"
 authors="LZY_Pinero"
-description="使用磨损来表示子弹数，更改动画以抵消NBT改变导致的原版切换物品动画，增加了黄金沙鹰，调整了数值，新增开火冷却属性，黄金沙鹰冷却较低。修复了一些零散小bug。"
+description="阿巴阿巴阿巴懒得再写了看github吧"
 
 [[dependencies.simpledeserteagle]]
     modId="minecraft"

@@ -1,5 +1,6 @@
 package net.pinero.simpledeserteagle.procedures;
 
+import com.sun.jna.platform.win32.WinUser;
 import net.minecraft.world.InteractionHand;
 import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModEntities;
@@ -27,6 +28,7 @@ import net.minecraft.commands.CommandSource;
 
 public class DesertEagleRightClickAirProcedure {
 	public static void execute(LevelAccessor world, Entity entity, InteractionHand hand) {
+
 		double x = entity.getX();
 		double y = entity.getY();
 		double z = entity.getZ();
@@ -36,12 +38,34 @@ public class DesertEagleRightClickAirProcedure {
 		if(entity instanceof LivingEntity _livEnt){
 			ItemStack handItemStake = (hand == InteractionHand.MAIN_HAND?_livEnt.getMainHandItem():_livEnt.getOffhandItem());
 			if(handItemStake.getItem() instanceof FatherDesertEagleItem handItem){
-				boolean isBroken = handItemStake.getDamageValue() >= handItem.getMaxDamage(handItemStake);
 				boolean isCooldown = false;
 				if (entity instanceof Player _player){
 					isCooldown = _player.getCooldowns().isOnCooldown(handItem);
 				}
-				if (handItemStake.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG) && !isBroken &&!isCooldown) {
+
+//				int bulletID = 0;
+//				ItemStack bulletStack = ItemStack.EMPTY.copy();
+//				for(; bulletID < FatherDesertEagleItem.numAmmoItemsInGun; bulletID++)
+//				{
+//					ItemStack checkingStack = FatherDesertEagleItem.getBulletItemStack(handItemStake, bulletID);
+//					if(checkingStack != null && checkingStack.getDamageValue() < checkingStack.getMaxDamage())
+//					{
+//						bulletStack = checkingStack;
+//						break;
+//					}
+//				}
+				ItemStack bulletStack = FatherDesertEagleItem.getBulletItemStack(handItemStake, 0);
+
+				if (!handItem.isReloading && !bulletStack.isEmpty()&&bulletStack.getDamageValue() < bulletStack.getMaxDamage() &&!isCooldown) {
+
+					if (entity instanceof Player _player && !_player.isCreative()){
+						final ItemStack bullet = bulletStack;
+						final Integer bulletID1 = 0;
+						bullet.setDamageValue(bullet.getDamageValue() + 1);
+						//Update the stack in the gun
+						FatherDesertEagleItem.setBulletItemStack(handItemStake, bullet, bulletID1);
+					}
+
 					if (world instanceof ServerLevel projectileLevel) {
 						Projectile _entityToSpawn =	new Object() {
 							public Projectile getArrow(Level level, Entity shooter, float damage, int knockBack, byte piercing) {
@@ -55,11 +79,9 @@ public class DesertEagleRightClickAirProcedure {
 								return entityToSpawn;
 							}
 						}.getArrow(projectileLevel, entity, handItem.getFireDamage(), 1, (byte) 5);
-						_entityToSpawn.setPos(x + 0.3, entity.getEyeY() - 0.2, z + 0.3);
+						_entityToSpawn.setPos(x, entity.getEyeY() - (double)0.15F, z);
 						_entityToSpawn.shoot(entity.getViewVector(1).x, entity.getViewVector(1).y, entity.getViewVector(1).z, handItem.getPower(), 0);
 						projectileLevel.addFreshEntity(_entityToSpawn);
-
-						handItemStake.setDamageValue(handItemStake.getDamageValue()+1);
 
 
 					}
@@ -74,7 +96,7 @@ public class DesertEagleRightClickAirProcedure {
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {
 							//播放音效
-							_level.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcfire")), SoundSource.PLAYERS, 1, 1);
+							_level.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcfire")), SoundSource.HOSTILE, 1, 1);
 						} else {
 							//实现抖动
 							double[] recoilTimer = {0}; // 后坐力计时器
@@ -136,23 +158,23 @@ public class DesertEagleRightClickAirProcedure {
 								"title @p actionbar \"" +content+"\"");
 					}
 
-				} else if (hand == InteractionHand.MAIN_HAND && entity instanceof Player player && player.getOffhandItem().getItem() instanceof FatherDesertEagleItem) {
+				} else if (hand == InteractionHand.MAIN_HAND && entity instanceof Player player && player.getOffhandItem().getItem() instanceof FatherDesertEagleItem) {//如果副手有枪就使用副手试试
 					((Player)entity).getOffhandItem().getItem().use((Level) world,(Player) entity,InteractionHand.OFF_HAND);
-				} else {
-					/**
-					* 因为这里触发换弹流程不知道为什么会把换弹中标记给改掉，实在想不出原因就禁止没子弹时右键开火了:)
-					*/
-					//DesertEagleReloadProcedure.execute(world, entity);
+				} else {//都没有就需要换弹了
+
+//					DesertEagleReloadProcedure.execute(world, entity);
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 								"title @p actionbar \"Please press 'R' to reload.\"");
+
 				}
 			}
 		}
 	}
 	private static int getBulletCount(ItemStack stack){
 		if(stack.getItem() instanceof FatherDesertEagleItem){
-			return stack.getMaxDamage()-stack.getDamageValue();
+			ItemStack bullet = FatherDesertEagleItem.getBulletItemStack(stack,0);
+			return bullet.getMaxDamage()-bullet.getDamageValue();
 		}
 		return 0;
 	}

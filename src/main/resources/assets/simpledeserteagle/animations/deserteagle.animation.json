@@ -2,7 +2,7 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"animation.DesertEagle.fire": {
-			"animation_length": 0.41667,
+			"animation_length": 0.20833,
 			"bones": {
 				"voxel_file": {
 					"relative_to": {
@@ -18,17 +18,6 @@
 						"0.2083": {
 							"vector": [0, 0, 0]
 						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.1667": {
-							"vector": [0, 0, -40]
-						},
-						"0.3333": {
-							"vector": [0, 0, 0]
-						}
 					}
 				},
 				"bone": {
@@ -40,17 +29,6 @@
 							"vector": [0, 36.52577, 0]
 						},
 						"0.2083": {
-							"vector": [0, 0, 0]
-						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.1667": {
-							"vector": [0, 0, -40]
-						},
-						"0.3333": {
 							"vector": [0, 0, 0]
 						}
 					}
@@ -71,10 +49,10 @@
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"0.1667": {
-							"vector": [0, 0, -40]
+						"0.125": {
+							"vector": [-2.5, 0, 2]
 						},
-						"0.3333": {
+						"0.2083": {
 							"vector": [0, 0, 0]
 						}
 					}
@@ -85,28 +63,45 @@
 			"loop": true
 		},
 		"animation.DesertEagle.reload": {
-			"animation_length": 2.66667,
+			"animation_length": 2.5,
 			"bones": {
 				"voxel_file": {
-					"position": {
+					"rotation": {
 						"0.0": {
-							"vector": [0, 0, 1]
+							"vector": [0, 0, 0]
 						},
-						"0.6667": {
-							"vector": [0, 0, 4]
+						"0.375": {
+							"vector": [0, 22.5, 0]
 						},
-						"1.1667": {
-							"vector": [0, 0, 1]
+						"1.6667": {
+							"vector": [0, 22.5, 0]
+						},
+						"2.0417": {
+							"vector": [0, 0, 0]
 						}
 					}
 				},
 				"bone": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.375": {
+							"vector": [0, 22.5, 0]
+						},
+						"1.6667": {
+							"vector": [0, 22.5, 0]
+						},
+						"2.0417": {
+							"vector": [0, 0, 0]
+						}
+					},
 					"position": {
 						"0.0": {
 							"vector": [0, 0, 1]
 						},
 						"0.6667": {
-							"vector": [0, 0, 21]
+							"vector": [9, 0, 21]
 						},
 						"1.1667": {
 							"vector": [0, 0, 1]
@@ -127,15 +122,18 @@
 					}
 				},
 				"bone3": {
-					"position": {
+					"rotation": {
 						"0.0": {
-							"vector": [0, 0, 1]
+							"vector": [0, 0, 0]
 						},
-						"0.6667": {
-							"vector": [0, 0, 4]
+						"0.375": {
+							"vector": [0, 22.5, 0]
 						},
-						"1.1667": {
-							"vector": [0, 0, 1]
+						"1.6667": {
+							"vector": [0, 22.5, 0]
+						},
+						"2.0417": {
+							"vector": [0, 0, 0]
 						}
 					}
 				}

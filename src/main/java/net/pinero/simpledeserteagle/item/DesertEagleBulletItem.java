@@ -1,14 +1,11 @@
 
 package net.pinero.simpledeserteagle.item;
 
+import net.minecraft.world.item.*;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModItems;
 import net.pinero.simpledeserteagle.entity.DesertEagleBulletEntity;
 
 import net.minecraft.world.level.Level;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
