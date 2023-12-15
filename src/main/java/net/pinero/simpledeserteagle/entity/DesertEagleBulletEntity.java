@@ -1,6 +1,10 @@
 
 package net.pinero.simpledeserteagle.entity;
 
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementProgress;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.phys.BlockHitResult;
@@ -87,19 +91,40 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 					level().getBlockState(p_36755_.getBlockPos()).getBlock() instanceof IronBarsBlock ironBarsBlock &&ironBarsBlock.getName().toString().contains("block.minecraft.glass_pane")) {
 			level().destroyBlock(p_36755_.getBlockPos(), true);
 			this.discard();
+
+			if (this.getOwner() instanceof ServerPlayer _player && distanceTo(_player) >= 100) {
+				Advancement _adv = _player.server.getAdvancements().getAdvancement(new ResourceLocation("simpledeserteagle:shoot_hundred_meters"));
+				AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
+				if (!_ap.isDone()) {
+					for (String criteria : _ap.getRemainingCriteria())
+						_player.getAdvancements().award(_adv, criteria);
+				}
+			}
+
 		}
 	}
 
-	//TODO:护甲穿透和爆头？
-//	@Override
-//	protected void onHitEntity(EntityHitResult p_36757_) {
-//		super.onHitEntity(p_36757_);
-//		Entity entity = p_36757_.getEntity();
+	@Override
+	protected void onHitEntity(EntityHitResult p_36757_) {
+		super.onHitEntity(p_36757_);
+		Entity entity = p_36757_.getEntity();
+		if (this.getOwner() instanceof ServerPlayer _player && entity.distanceTo(_player) >= 100) {
+			Advancement _adv = _player.server.getAdvancements().getAdvancement(new ResourceLocation("simpledeserteagle:shoot_hundred_meters"));
+			AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
+			if (!_ap.isDone()) {
+				for (String criteria : _ap.getRemainingCriteria())
+					_player.getAdvancements().award(_adv, criteria);
+			}
+		}
+
+		//TODO:护甲穿透和爆头？
 //		if(entity instanceof LivingEntity livingEntity){
 //			livingEntity.getArmorValue();
 //		}
+
 //		p_36757_.getEntity().getBoundingBox();
-//	}
+
+	}
 
 	public static DesertEagleBulletEntity shoot(Level world, LivingEntity entity, RandomSource random, float power, double damage, int knockback) {
 		DesertEagleBulletEntity entityarrow = new DesertEagleBulletEntity(SimpledeserteagleModEntities.DESERT_EAGLE_BULLET.get(), entity, world);
