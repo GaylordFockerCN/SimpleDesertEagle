@@ -4,7 +4,7 @@
   "definition": {
     "recipeType": "Crafting",
     "recipeRetstackSize": 1,
-    "group": "desert_eagle_blaze",
+    "group": "desert_eagle_diamond",
     "cookingBookCategory": "MISC",
     "xpReward": 0.0,
     "cookingTime": 200,
