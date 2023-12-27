@@ -134,6 +134,12 @@ public class FatherDesertEagleItem extends Item implements GeoItem {
 	}
 
 	@Override
+	public void verifyTagAfterLoad(CompoundTag p_150898_) {
+		super.verifyTagAfterLoad(p_150898_);
+		isReloading = false;//修复莫名换弹不了的bug
+	}
+
+	@Override
 	public void onCraftedBy(ItemStack stack, Level p_41448_, Player p_41449_) {
 		super.onCraftedBy(stack, p_41448_, p_41449_);
 		ItemStack bullet = stack.copy();
