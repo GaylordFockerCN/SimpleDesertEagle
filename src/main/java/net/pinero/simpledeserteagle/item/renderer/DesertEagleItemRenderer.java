@@ -19,8 +19,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 public class DesertEagleItemRenderer extends GeoItemRenderer<DesertEagleItem> {
-	public DesertEagleItemRenderer() {
-		super(new DesertEagleItemModel());
+	public DesertEagleItemRenderer(String textureResource) {
+		super(new DesertEagleItemModel(textureResource));
 	}
 
 	@Override
@@ -46,8 +46,8 @@ public class DesertEagleItemRenderer extends GeoItemRenderer<DesertEagleItem> {
 	}
 
 	@Override
-	public void actuallyRender(PoseStack matrixStackIn, DesertEagleItem animatable, BakedGeoModel model, RenderType type, MultiBufferSource renderTypeBuffer, VertexConsumer vertexBuilder, boolean isRenderer, float partialTicks, int packedLightIn,
-			int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void actuallyRender(PoseStack matrixStackIn, DesertEagleItem animatable, BakedGeoModel model, RenderType type, MultiBufferSource renderTypeBuffer, VertexConsumer vertexBuilder, boolean isRenderer, float partialTicks,
+							   int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		this.currentBuffer = renderTypeBuffer;
 		this.renderType = type;
 		this.animatable = animatable;

@@ -4,21 +4,11 @@ package net.pinero.simpledeserteagle;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.RenderArmEvent;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
-import net.pinero.simpledeserteagle.item.HeavyDesertEagleItem;
+import net.pinero.simpledeserteagle.item.DesertEagleItem;
 
 /**
  * @author LZY_Pinero
@@ -29,8 +19,6 @@ import net.pinero.simpledeserteagle.item.HeavyDesertEagleItem;
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DoubleHoldCoolDownController {
-	public DoubleHoldCoolDownController() {
-	}
 
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {
@@ -47,7 +35,7 @@ public class DoubleHoldCoolDownController {
 			ItemStack offHandStack = player.getOffhandItem();
 			ItemStack mainHandStack = player.getMainHandItem();
 			if (offHandStack.getItem().getClass() == mainHandStack.getItem().getClass())return;
-			if(mainHandStack.getItem() instanceof FatherDesertEagleItem mainHandItem&& offHandStack.getItem() instanceof FatherDesertEagleItem offHandItem){
+			if(mainHandStack.getItem() instanceof DesertEagleItem mainHandItem&& offHandStack.getItem() instanceof DesertEagleItem offHandItem){
 				if(event.getHand() == InteractionHand.MAIN_HAND){
 					if(!player.getCooldowns().isOnCooldown(offHandItem)&& !mainHandItem.isReloading){
 						player.getCooldowns().addCooldown(offHandItem,1);

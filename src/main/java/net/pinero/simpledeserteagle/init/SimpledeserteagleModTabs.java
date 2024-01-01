@@ -21,7 +21,6 @@ public class SimpledeserteagleModTabs {
 				tabData.accept(SimpledeserteagleModItems.DESERT_EAGLE_BULLET.get());
 				tabData.accept(SimpledeserteagleModItems.DESERT_EAGLE_AMMO.get());
 				tabData.accept(SimpledeserteagleModItems.DESERT_EAGLE_AMMO_PLUS.get());
-				tabData.accept(SimpledeserteagleModItems.FATHER_DESERT_EAGLE.get());
 				tabData.accept(SimpledeserteagleModItems.DESERT_EAGLE.get());
 				tabData.accept(SimpledeserteagleModItems.COPPER_DESERT_EAGLE.get());
 				tabData.accept(SimpledeserteagleModItems.DESERT_EAGLE_BLAZE.get());

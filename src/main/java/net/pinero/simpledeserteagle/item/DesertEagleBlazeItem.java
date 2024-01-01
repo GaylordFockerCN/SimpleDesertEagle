@@ -10,7 +10,7 @@ import software.bernie.geckolib.animatable.GeoItem;
 
 import java.util.function.Consumer;
 
-public class DesertEagleBlazeItem extends FatherDesertEagleItem implements GeoItem {
+public class DesertEagleBlazeItem extends DesertEagleItem implements GeoItem {
 
 	public DesertEagleBlazeItem() {
 		super();

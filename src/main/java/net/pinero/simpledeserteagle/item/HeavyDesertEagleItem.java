@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 
 import java.util.function.Consumer;
 
-public class HeavyDesertEagleItem extends FatherDesertEagleItem implements GeoItem {
+public class HeavyDesertEagleItem extends DesertEagleItem implements GeoItem {
 
 	public HeavyDesertEagleItem() {
 		super();

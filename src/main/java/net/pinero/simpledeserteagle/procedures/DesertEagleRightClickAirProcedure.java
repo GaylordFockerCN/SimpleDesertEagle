@@ -1,8 +1,7 @@
 package net.pinero.simpledeserteagle.procedures;
 
-import com.sun.jna.platform.win32.WinUser;
 import net.minecraft.world.InteractionHand;
-import net.pinero.simpledeserteagle.item.FatherDesertEagleItem;
+import net.pinero.simpledeserteagle.item.DesertEagleItem;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModEntities;
 import net.pinero.simpledeserteagle.entity.DesertEagleBulletEntity;
 
@@ -37,7 +36,7 @@ public class DesertEagleRightClickAirProcedure {
 
 		if(entity instanceof LivingEntity _livEnt){
 			ItemStack handItemStake = (hand == InteractionHand.MAIN_HAND?_livEnt.getMainHandItem():_livEnt.getOffhandItem());
-			if(handItemStake.getItem() instanceof FatherDesertEagleItem handItem){
+			if(handItemStake.getItem() instanceof DesertEagleItem handItem){
 				boolean isCooldown = false;
 				if (entity instanceof Player _player){
 					isCooldown = _player.getCooldowns().isOnCooldown(handItem);
@@ -54,7 +53,7 @@ public class DesertEagleRightClickAirProcedure {
 //						break;
 //					}
 //				}
-				ItemStack bulletStack = FatherDesertEagleItem.getBulletItemStack(handItemStake, 0);
+				ItemStack bulletStack = DesertEagleItem.getBulletItemStack(handItemStake, 0);
 
 				if (!handItem.isReloading && !bulletStack.isEmpty()&&bulletStack.getDamageValue() < bulletStack.getMaxDamage() &&!isCooldown) {
 
@@ -63,7 +62,7 @@ public class DesertEagleRightClickAirProcedure {
 						final Integer bulletID1 = 0;
 						bullet.setDamageValue(bullet.getDamageValue() + 1);
 						//Update the stack in the gun
-						FatherDesertEagleItem.setBulletItemStack(handItemStake, bullet, bulletID1);
+						DesertEagleItem.setBulletItemStack(handItemStake, bullet, bulletID1);
 					}
 
 					if (world instanceof ServerLevel projectileLevel) {
@@ -147,11 +146,11 @@ public class DesertEagleRightClickAirProcedure {
 						boolean isMainHand = hand == InteractionHand.MAIN_HAND;
 
 						ItemStack anotherHandItemStake = _livEnt.getItemInHand(isMainHand?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND);
-						String content = (isMainHand?"Main Hand Ammo:":" Off Hand Ammo:") +getBulletCount(handItemStake)+ "/" + FatherDesertEagleItem.MAX_AMMO;
+						String content = (isMainHand?"Main Hand Ammo:":" Off Hand Ammo:") +getBulletCount(handItemStake)+ "/" + DesertEagleItem.MAX_AMMO;
 
-						if(anotherHandItemStake.getItem() instanceof FatherDesertEagleItem offHandItem){
-							content = "Off Hand Ammo:"+ ( isMainHand?getBulletCount(anotherHandItemStake):getBulletCount(handItemStake)) + "/"+FatherDesertEagleItem.MAX_AMMO+
-									"      Main Hand Ammo:"+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+FatherDesertEagleItem.MAX_AMMO;
+						if(anotherHandItemStake.getItem() instanceof DesertEagleItem offHandItem){
+							content = "Off Hand Ammo:"+ ( isMainHand?getBulletCount(anotherHandItemStake):getBulletCount(handItemStake)) + "/"+ DesertEagleItem.MAX_AMMO+
+									"      Main Hand Ammo:"+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+ DesertEagleItem.MAX_AMMO;
 						}
 
 
@@ -159,7 +158,7 @@ public class DesertEagleRightClickAirProcedure {
 								"title @p actionbar \"" +content+"\"");
 					}
 
-				} else if (hand == InteractionHand.MAIN_HAND && entity instanceof Player player && player.getOffhandItem().getItem() instanceof FatherDesertEagleItem) {//如果副手有枪就使用副手试试
+				} else if (hand == InteractionHand.MAIN_HAND && entity instanceof Player player && player.getOffhandItem().getItem() instanceof DesertEagleItem) {//如果副手有枪就使用副手试试
 					((Player)entity).getOffhandItem().getItem().use((Level) world,(Player) entity,InteractionHand.OFF_HAND);
 				} else {//都没有就需要换弹了
 
@@ -173,8 +172,8 @@ public class DesertEagleRightClickAirProcedure {
 		}
 	}
 	private static int getBulletCount(ItemStack stack){
-		if(stack.getItem() instanceof FatherDesertEagleItem){
-			ItemStack bullet = FatherDesertEagleItem.getBulletItemStack(stack,0);
+		if(stack.getItem() instanceof DesertEagleItem){
+			ItemStack bullet = DesertEagleItem.getBulletItemStack(stack,0);
 			return bullet.getMaxDamage()-bullet.getDamageValue();
 		}
 		return 0;

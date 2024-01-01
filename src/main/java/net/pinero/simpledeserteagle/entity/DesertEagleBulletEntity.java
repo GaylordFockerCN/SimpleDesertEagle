@@ -9,7 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModItems;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModEntities;
 
@@ -71,15 +70,8 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.inGround){
-			new Thread(()->{
-				try {
-					Thread.sleep(3000);//保存3s后消失
-				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-				this.discard();
-			}).start();
+		if(this.tickCount>60){//不管在地上（保留弹孔）还是由于某种原因卡在天上（未知bug）统统灭了
+			this.discard();
 		}
 	}
 
@@ -106,6 +98,9 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 
 	@Override
 	protected void onHitEntity(EntityHitResult p_36757_) {
+
+
+
 		super.onHitEntity(p_36757_);
 		Entity entity = p_36757_.getEntity();
 		if (this.getOwner() instanceof ServerPlayer _player && entity.distanceTo(_player) >= 100) {

@@ -1,6 +1,7 @@
 plugins {
     id 'eclipse'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = '1.0'
@@ -22,7 +23,7 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-
+            arg "-mixin.config=simpledeserteagle.mixin.json"
             mods {
                 examplemod {
                     source sourceSets.main
@@ -47,10 +48,19 @@ minecraft {
 
 jar {
     archiveFileName = 'SimpleDesertEagle.jar'
+
+    rename 'mixin.refmap.json', 'simpledeserteagle.mixin-refmap.json'
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.1.0'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    // MixinGradle Settings
+//    add sourceSets.main, 'mixins.mymod.refmap.json'
+    config 'simpledeserteagle.mixin.json'
 }
 
 tasks.withType(JavaCompile).configureEach {

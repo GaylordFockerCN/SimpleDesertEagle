@@ -30,7 +30,7 @@
       "type": "rangeditem",
       "sortid": 1,
       "compiles": true,
-      "locked_code": false,
+      "locked_code": true,
       "registry_name": "desert_eagle_bullet",
       "metadata": {
         "files": [
@@ -397,6 +397,19 @@
           "src/main/resources/data/simpledeserteagle/recipes/heavy_desert_eagle_recipe.json"
         ]
       }
+    },
+    {
+      "name": "ShootHundredMeters",
+      "type": "achievement",
+      "sortid": 26,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "shoot_hundred_meters",
+      "metadata": {
+        "files": [
+          "src/main/resources/data/simpledeserteagle/advancements/shoot_hundred_meters.json"
+        ]
+      }
     }
   ],
   "variable_elements": [],
@@ -431,10 +444,12 @@
       "subtitles.deserteagelcrcfire": "DesertEagleFire",
       "key.simpledeserteagle.reload": "Reload",
       "item.simpledeserteagle.heavy_desert_eagle": "Heavy Desert Eagle",
+      "advancements.shoot_hundred_meters.descr": "射中一百米外的玻璃或者生物实体",
       "subtitles.deserteagelfire": "Desert Eagle Fire",
       "item.simpledeserteagle.copper_desert_eagle": "Copper Desert Eagle",
       "item.simpledeserteagle.desert_eagle_ammo_plus": "Desert Eagle Ammo Plus",
       "item.simpledeserteagle.father_desert_eagle": "Father Desert Eagle",
+      "advancements.shoot_hundred_meters.title": "Shoot Hundred Meters",
       "item.simpledeserteagle.desert_eagle": "Desert Eagle"
     },
     "zh_cn": {
@@ -449,10 +464,12 @@
       "subtitles.deserteagelcrcfire": "沙鹰开火",
       "key.simpledeserteagle.reload": "换弹",
       "item.simpledeserteagle.heavy_desert_eagle": "重型沙鹰",
+      "advancements.shoot_hundred_meters.descr": "射中一百米外的玻璃或者生物实体",
       "subtitles.deserteagelfire": "沙鹰开火",
       "item.simpledeserteagle.copper_desert_eagle": "铜制沙鹰",
       "item.simpledeserteagle.desert_eagle_ammo_plus": "高级沙鹰弹药",
       "item.simpledeserteagle.father_desert_eagle": "沙鹰父类",
+      "advancements.shoot_hundred_meters.title": "百步穿杨！",
       "item.simpledeserteagle.desert_eagle": "沙漠之鹰"
     }
   },
@@ -463,10 +480,10 @@
   "workspaceSettings": {
     "modid": "simpledeserteagle",
     "modName": "SimpleDesertEagle",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "description": "阿巴阿巴阿巴懒得再写了看github吧",
     "author": "LZY_Pinero",
-    "websiteURL": "https://afdian.net/a/lzypinero",
+    "websiteURL": "https://github.com/GaylordFockerCN/SimpleDesertEagle",
     "license": "Academic Free License v3.0",
     "disableForgeVersionCheck": true,
     "serverSideOnly": true,

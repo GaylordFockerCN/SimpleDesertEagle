@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.pinero.simpledeserteagle.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "plugin": "net.pinero.simpledeserteagle.mixin.ObfuscateMixinPlugin",
+  "client": [
+    "PlayerModelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "simpledeserteagle.mixin-refmap.json",
+  "minVersion": "0.8"
+}
