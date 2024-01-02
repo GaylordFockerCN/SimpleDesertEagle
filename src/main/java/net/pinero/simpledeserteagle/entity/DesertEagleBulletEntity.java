@@ -3,12 +3,21 @@ package net.pinero.simpledeserteagle.entity;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.*;
+import net.pinero.simpledeserteagle.headshot.BoundingBoxManager;
+import net.pinero.simpledeserteagle.headshot.IHeadshotBox;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModItems;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModEntities;
 
@@ -26,6 +35,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.Packet;
+
+import java.util.Optional;
 
 @OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class DesertEagleBulletEntity extends AbstractArrow implements ItemSupplier {
@@ -97,12 +108,53 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 	}
 
 	@Override
-	protected void onHitEntity(EntityHitResult p_36757_) {
+	protected void onHitEntity(EntityHitResult result) {
+		final Vec3 position = this.position();
+		Entity entity = result.getEntity();
+		AABB boundingBox = entity.getBoundingBox();
+		Vec3 startVec = this.position();
+		Vec3 endVec = startVec.add(this.getDeltaMovement());
+		Vec3 hitPos = boundingBox.clip(startVec, endVec).orElse(null);
+		/* Check for headshot */
+		boolean headshot = false;
+		if(entity instanceof LivingEntity)
+		{
+			IHeadshotBox<LivingEntity> headshotBox = (IHeadshotBox<LivingEntity>) BoundingBoxManager.getHeadshotBoxes(entity.getType());
+			if(headshotBox != null)
+			{
+				AABB box = headshotBox.getHeadshotBox((LivingEntity) entity);
+				if(box != null)
+				{
+					box = box.move(boundingBox.getCenter().x, boundingBox.minY, boundingBox.getCenter().z);
+					Optional<Vec3> headshotHitPos = box.clip(startVec, endVec);
+//					if(!headshotHitPos.isPresent())
+//					{
+//						box = box.inflate(Config.COMMON.gameplay.growBoundingBoxAmount.get(), 0, Config.COMMON.gameplay.growBoundingBoxAmount.get());
+//						headshotHitPos = box.clip(startVec, endVec);
+//					}
+					if(headshotHitPos.isPresent() && (hitPos == null || headshotHitPos.get().distanceTo(hitPos) < 0.5))
+					{
+						hitPos = headshotHitPos.get();
+						headshot = true;
+					}
+					if(headshot){
+						if(entity instanceof Player player){
+							setBaseDamage(getBaseDamage()*(player.getMaxHealth()/0.45));
+						}else {
+							setBaseDamage(getBaseDamage()*2);
+						}
 
+						if(level() instanceof ServerLevel level){
+							level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, this.getOwner().position(), Vec2.ZERO, level, 4, "", Component.literal(""), level.getServer(), null).withSuppressedOutput(),
+									"title @p actionbar \"§c§l"+I18n.get("info.simpledeserteagle.headshot","") +"\"");
 
+						}
+					}
+				}
+			}
+		}
 
-		super.onHitEntity(p_36757_);
-		Entity entity = p_36757_.getEntity();
+		super.onHitEntity(result);
 		if (this.getOwner() instanceof ServerPlayer _player && entity.distanceTo(_player) >= 100) {
 			Advancement _adv = _player.server.getAdvancements().getAdvancement(new ResourceLocation("simpledeserteagle:shoot_hundred_meters"));
 			AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
@@ -111,13 +163,6 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 					_player.getAdvancements().award(_adv, criteria);
 			}
 		}
-
-		//TODO:护甲穿透和爆头？
-//		if(entity instanceof LivingEntity livingEntity){
-//			livingEntity.getArmorValue();
-//		}
-
-//		p_36757_.getEntity().getBoundingBox();
 
 	}
 

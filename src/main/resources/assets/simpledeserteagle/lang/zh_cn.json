@@ -14,7 +14,20 @@
   "subtitles.deserteagelfire": "沙鹰开火",
   "item.simpledeserteagle.copper_desert_eagle": "铜制沙鹰",
   "item.simpledeserteagle.desert_eagle_ammo_plus": "高级沙鹰弹药",
-  "item.simpledeserteagle.father_desert_eagle": "沙鹰父类",
   "advancements.shoot_hundred_meters.title": "百步穿杨！",
-  "item.simpledeserteagle.desert_eagle": "沙漠之鹰"
+  "item.simpledeserteagle.desert_eagle": "沙漠之鹰",
+  "info.simpledeserteagle.headshot": "爆头！",
+  "info.simpledeserteagle.ammo_count": "剩余弹药数: ",
+  "info.simpledeserteagle.ammo_damage": "伤害: ",
+  "info.simpledeserteagle.ammo_cooldown": "冷却时间: ",
+  "info.simpledeserteagle.ammo_type": "弹药类型: ",
+  "info.simpledeserteagle.ammo_type_common": "沙鹰弹药",
+  "info.simpledeserteagle.ammo_type_advanced": "高级沙鹰弹药",
+  "tips.simpledeserteagle.reloadbutton": "请按 %s 键换弹",
+  "tips.simpledeserteagle.no_ammo": "无后备弹药!",
+  "tips.simpledeserteagle.main_hand_ammo": "主手剩余弹药:",
+  "tips.simpledeserteagle.off_hand_ammo": "副手剩余弹药:",
+  "tips.simpledeserteagle.main_ammo_full": "主手弹药充足！",
+  "tips.simpledeserteagle.off_ammo_full": "副手弹药充足！",
+  "tips.simpledeserteagle.reloading": "您正在换弹！"
 }

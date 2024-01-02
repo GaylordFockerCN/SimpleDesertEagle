@@ -1,5 +1,6 @@
 package net.pinero.simpledeserteagle.procedures;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.pinero.simpledeserteagle.item.DesertEagleItem;
@@ -68,12 +69,11 @@ public class DesertEagleReloadProcedure {
 					//显示子弹数量信息
 					if (world instanceof ServerLevel _level){
 						ItemStack anotherHandItemStake = player.getItemInHand(isMainHand?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND);
+						String content = (isMainHand? I18n.get("tips.simpledeserteagle.main_hand_ammo"):" "+I18n.get("tips.simpledeserteagle.off_hand_ammo")) +getBulletCount(handItemStake)+ "/" + DesertEagleItem.MAX_AMMO;
 
-						String content = (isMainHand?"Main Hand Ammo:":" Off Hand Ammo:") +getBulletCount(handItemStake)+ "/" + DesertEagleItem.MAX_AMMO;
-
-						if(anotherHandItemStake.getItem() instanceof DesertEagleItem offHandItem){
-							content = "Off Hand Ammo:"+ ( isMainHand?getBulletCount(anotherHandItemStake):getBulletCount(handItemStake)) + "/"+ DesertEagleItem.MAX_AMMO+
-									"      Main Hand Ammo:"+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+ DesertEagleItem.MAX_AMMO;
+						if(anotherHandItemStake.getItem() instanceof DesertEagleItem){
+							content = I18n.get("tips.simpledeserteagle.off_hand_ammo")+ ( isMainHand?getBulletCount(anotherHandItemStake):getBulletCount(handItemStake)) + "/"+ DesertEagleItem.MAX_AMMO+
+									"      "+I18n.get("tips.simpledeserteagle.main_hand_ammo")+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+ DesertEagleItem.MAX_AMMO;
 						}
 
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
@@ -83,7 +83,7 @@ public class DesertEagleReloadProcedure {
 				}else{
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-								"title @p actionbar \"No Ammo!\"");
+								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.no_ammo")+"\"");
 				}
 			} catch (Exception e) {//Exception高发地，实在不会搞
 				throw new RuntimeException(e);
@@ -139,22 +139,22 @@ public class DesertEagleReloadProcedure {
 				if(isFull(mainHandItem)){
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-								"title @p actionbar \"Main hand ammo is FULL!\"");
+								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.main_ammo_full")+"\"");
 				} else if (item.isReloading) {
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-								"title @p actionbar \"Main hand is Reloading!\"");
+								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.reloading")+"\"");
 				}else procedure(_livEnt.getMainHandItem(),entity,world,item.getAmmoType().get(),true);
 			}
 			if(offhandItem.getItem() instanceof DesertEagleItem item && /*offhandItem.getOrCreateTag().getBoolean(FatherDesertEagleItem.RELOADING_DONE_TAG)*/!item.isReloading  && !isFull(offhandItem)){
 				if(isFull(offhandItem)){
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-								"title @p actionbar \"Offhand ammo is FULL!\"");
+								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.off_ammo_full")+"\"");
 				} else if (item.isReloading) {
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-								"title @p actionbar \"Offhand is Reloading!\"");
+								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.reloading")+"\"");
 				}else procedure(_livEnt.getOffhandItem(),entity,world,item.getAmmoType().get(),false);
 			}
 		}

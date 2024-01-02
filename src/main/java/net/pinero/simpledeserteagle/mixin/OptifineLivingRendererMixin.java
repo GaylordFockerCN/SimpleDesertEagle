@@ -13,7 +13,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
+/**
+ * Author: MrCrayfish
+ */
 @Mixin(LivingEntityRenderer.class)
 public class OptifineLivingRendererMixin<T extends LivingEntity, M extends EntityModel<T>>
 {

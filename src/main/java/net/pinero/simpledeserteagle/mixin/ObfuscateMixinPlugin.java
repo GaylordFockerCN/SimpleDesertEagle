@@ -5,7 +5,9 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Author: MrCrayfish
+ */
 public class ObfuscateMixinPlugin implements IMixinConfigPlugin
 {
     private boolean optifineLoaded;

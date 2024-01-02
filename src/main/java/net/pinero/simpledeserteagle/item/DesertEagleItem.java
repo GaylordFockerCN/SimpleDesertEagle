@@ -1,12 +1,12 @@
 
 package net.pinero.simpledeserteagle.item;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegistryObject;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModItems;
@@ -186,24 +186,13 @@ public class DesertEagleItem extends Item implements GeoItem {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack itemstack, Level world, Entity entity, int slot, boolean selected) {
-
-//		if (selected && entity instanceof ServerPlayer player){
-//			if(player.getMainHandItem().getItem() == this){
-//			TODO:实现持枪动作，但是目前还不会
-//			}
-//		}
-
-	}
-
-	@Override
 	public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
 		ItemStack bulletItemStack = getBulletItemStack(itemstack,0);
 		int ammo = bulletItemStack.getMaxDamage()-bulletItemStack.getDamageValue();
-		list.add(Component.literal("Ammo: "+ammo+"/"+MAX_AMMO));
-		list.add(Component.literal("Damage: "+ fireDamage *16));
-		list.add(Component.literal(String.format("Cooldown: %.2fs", coolDownTick*0.05)));
-		list.add(Component.literal("Ammo type: "+((ammoType==SimpledeserteagleModItems.DESERT_EAGLE_AMMO)?"Common":"Advanced")));
+		list.add(Component.translatable("info.simpledeserteagle.ammo_count").append(ammo+"/"+MAX_AMMO));
+		list.add(Component.translatable("info.simpledeserteagle.ammo_damage").append(String.valueOf(fireDamage*16)));
+		list.add(Component.translatable("info.simpledeserteagle.ammo_cooldown").append(String.format("%.2fs", coolDownTick*0.05)));
+		list.add(Component.translatable("info.simpledeserteagle.ammo_type").append(((ammoType==SimpledeserteagleModItems.DESERT_EAGLE_AMMO)? I18n.get("info.simpledeserteagle.ammo_type_common"):I18n.get("info.simpledeserteagle.ammo_type_advanced"))));
 	}
 
 

@@ -1,6 +1,8 @@
 package net.pinero.simpledeserteagle.procedures;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.InteractionHand;
+import net.pinero.simpledeserteagle.KeyMappingsTest;
 import net.pinero.simpledeserteagle.item.DesertEagleItem;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModEntities;
 import net.pinero.simpledeserteagle.entity.DesertEagleBulletEntity;
@@ -24,6 +26,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.core.BlockPos;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.CommandSource;
+
+import java.security.Key;
 
 public class DesertEagleRightClickAirProcedure {
 	public static void execute(LevelAccessor world, Entity entity, InteractionHand hand) {
@@ -146,11 +150,11 @@ public class DesertEagleRightClickAirProcedure {
 						boolean isMainHand = hand == InteractionHand.MAIN_HAND;
 
 						ItemStack anotherHandItemStake = _livEnt.getItemInHand(isMainHand?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND);
-						String content = (isMainHand?"Main Hand Ammo:":" Off Hand Ammo:") +getBulletCount(handItemStake)+ "/" + DesertEagleItem.MAX_AMMO;
+						String content = (isMainHand?I18n.get("tips.simpledeserteagle.main_hand_ammo"):" "+I18n.get("tips.simpledeserteagle.off_hand_ammo")) +getBulletCount(handItemStake)+ "/" + DesertEagleItem.MAX_AMMO;
 
-						if(anotherHandItemStake.getItem() instanceof DesertEagleItem offHandItem){
-							content = "Off Hand Ammo:"+ ( isMainHand?getBulletCount(anotherHandItemStake):getBulletCount(handItemStake)) + "/"+ DesertEagleItem.MAX_AMMO+
-									"      Main Hand Ammo:"+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+ DesertEagleItem.MAX_AMMO;
+						if(anotherHandItemStake.getItem() instanceof DesertEagleItem){
+							content = I18n.get("tips.simpledeserteagle.off_hand_ammo")+ ( isMainHand?getBulletCount(anotherHandItemStake):getBulletCount(handItemStake)) + "/"+ DesertEagleItem.MAX_AMMO+
+									"      "+I18n.get("tips.simpledeserteagle.main_hand_ammo")+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+ DesertEagleItem.MAX_AMMO;
 						}
 
 
@@ -165,7 +169,7 @@ public class DesertEagleRightClickAirProcedure {
 //					DesertEagleReloadProcedure.execute(world, entity);
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-								"title @p actionbar \"Please press 'R' to reload.\"");
+								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.reloadbutton", KeyMappingsTest.RELOAD.saveString()).toUpperCase()+"\"");
 
 				}
 			}
