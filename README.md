@@ -4,5 +4,6 @@
 ## 感谢Ankonzy提供的贴图
 ## 非常乐意如果有大佬来带我（异想天开）
 ## 没什么用的爱发电：https://afdian.net/a/lzypinero
-## 感谢MrCrayfish的开源（借用了爆头判断和Mixin实现的第三人称动作框架）
-## 感谢Flan枪械的开源（借用了用嵌套NBT存储弹药的逻辑）
+## 感谢MrCrayfish的开源（借用了爆头判断和Mixin实现的第三人称动作框架）(https://github.com/MikhailTapio/MrCrayfishGunMod/tree/1.20.1-unofficial/src/main/java/com/mrcrayfish/guns/common/headshot)(https://github.com/MrCrayfish/Obfuscate/tree/1.17.X/src/main/java/com/mrcrayfish/obfuscate/mixin)
+## 感谢Flan枪械的开源（借用了用嵌套NBT存储弹药的逻辑）https://github.com/FlansMods/FlansMod/blob/1.12.2/src/main/java/com/flansmod/common/guns/ItemGun.java#L129
+## 感谢ElTotisPro50在forge论坛为我指路(https://forums.minecraftforge.net/topic/106231-renderplayerevent-is-not-working1165/)此方法已过时并无效，高版本需用Mixin
