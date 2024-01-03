@@ -4,9 +4,9 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '1.0'
-group = 'com.yourname.modid'
-archivesBaseName = 'modid'
+version = '1.20.1-1.7.0'
+group = 'com.p1nero.simpledeserteagle'
+archivesBaseName = '[简单沙鹰]SimpleDesertEagle'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -20,10 +20,11 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            arg "-mixin.config=simpledeserteagle.mixin.json"
+            arg "-mixin.config=simpledeserteagle.mixins.json"
             mods {
                 examplemod {
                     source sourceSets.main
@@ -33,10 +34,25 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=simpledeserteagle.mixins.json"
+            mods {
+                examplemod {
+                    source sourceSets.main
+                }
+            }
+        }
 
+        data {
+            workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=simpledeserteagle.mixins.json"
             mods {
                 examplemod {
                     source sourceSets.main
@@ -47,25 +63,43 @@ minecraft {
 }
 
 jar {
-    archiveFileName = 'SimpleDesertEagle.jar'
-
-    rename 'mixin.refmap.json', 'simpledeserteagle.mixin-refmap.json'
+    manifest {
+        attributes([
+                "Specification-Title": "Simple Desert Eagle",
+                "Specification-Vendor": "p1nero",
+                "Specification-Version": "1",
+                "Implementation-Title": "Simple Desert Eagle",
+                "Implementation-Version": project.version,
+                "Implementation-Vendor" : "p1nero",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "simpledeserteagle.mixins.json"
+        ])
+    }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.1.0'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
 }
 
 mixin {
-    // MixinGradle Settings
-//    add sourceSets.main, 'mixins.mymod.refmap.json'
-    config 'simpledeserteagle.mixin.json'
+    add sourceSets.main, 'simpledeserteagle.mixin-refmap.json'
+    config 'simpledeserteagle.mixins.json'
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
-apply from: 'mcreator.gradle'
+repositories {
+    maven {
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
+}
+
+dependencies {
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.20.1:4.2.2')
+}
+
 

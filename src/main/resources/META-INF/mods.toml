@@ -23,7 +23,7 @@ description="阿巴阿巴阿巴懒得再写了看github吧"
 [[dependencies.simpledeserteagle]]
     modId="geckolib"
     mandatory=false
-    versionRange="[0,)"
+    versionRange="[4,)"
     ordering="NONE"
     side="BOTH"
 

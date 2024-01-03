@@ -2,6 +2,7 @@ package net.pinero.simpledeserteagle.procedures;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.InteractionHand;
+import net.minecraftforge.forgespi.language.IModLanguageProvider;
 import net.pinero.simpledeserteagle.KeyMappingsTest;
 import net.pinero.simpledeserteagle.item.DesertEagleItem;
 import net.pinero.simpledeserteagle.init.SimpledeserteagleModEntities;
@@ -157,7 +158,6 @@ public class DesertEagleRightClickAirProcedure {
 									"      "+I18n.get("tips.simpledeserteagle.main_hand_ammo")+( isMainHand?getBulletCount(handItemStake):getBulletCount(anotherHandItemStake) )+ "/"+ DesertEagleItem.MAX_AMMO;
 						}
 
-
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
 								"title @p actionbar \"" +content+"\"");
 					}
@@ -169,7 +169,7 @@ public class DesertEagleRightClickAirProcedure {
 //					DesertEagleReloadProcedure.execute(world, entity);
 					if (world instanceof ServerLevel _level)
 						_level.getServer().getCommands().performPrefixedCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x, y, z), Vec2.ZERO, _level, 4, "", Component.literal(""), _level.getServer(), null).withSuppressedOutput(),
-								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.reloadbutton", KeyMappingsTest.RELOAD.saveString()).toUpperCase()+"\"");
+								"title @p actionbar \""+I18n.get("tips.simpledeserteagle.reloadbutton", KeyMappingsTest.RELOAD.saveString().toUpperCase())+"\"");
 
 				}
 			}
