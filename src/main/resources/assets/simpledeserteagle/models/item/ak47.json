@@ -1,0 +1,6 @@
+{
+  "parent": "simpledeserteagle:displaysettings/ak47.item",
+  "textures": {
+    "layer0": "simpledeserteagle:item/ak47"
+  }
+}

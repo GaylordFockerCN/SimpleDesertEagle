@@ -27,6 +27,7 @@ public class SimpledeserteagleModTabs {
 				tabData.accept(SimpledeserteagleModItems.DIAMOND_DESERT_EAGLE.get());
 				tabData.accept(SimpledeserteagleModItems.GOLDEN_DESERT_EAGLE.get());
 				tabData.accept(SimpledeserteagleModItems.HEAVY_DESERT_EAGLE.get());
+				tabData.accept(SimpledeserteagleModItems.AK47.get());
 			})
 
 					.build());

@@ -1,8 +1,10 @@
 package net.pinero.simpledeserteagle.procedures;
 
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.fml.loading.targets.FMLClientLaunchHandler;
 import net.pinero.simpledeserteagle.item.DesertEagleItem;
 
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,7 +53,7 @@ public class DesertEagleReloadProcedure {
 						//播放动画
 						((DesertEagleItem)handItemStake.getItem()).reloadAnim(serverLevel, player, handItemStake);
 						//播放音效
-						serverLevel.playSound(null, BlockPos.containing(x, y, z), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcreload")), SoundSource.HOSTILE, 1, 1);
+						serverLevel.playSound(player, x,y,z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("simpledeserteagle:deserteagelcrcreload")), SoundSource.HOSTILE, 1, 1);
 
 					}
 

@@ -27,4 +27,6 @@ public class SimpledeserteagleModItems {
 	public static final RegistryObject<Item> DIAMOND_DESERT_EAGLE = REGISTRY.register("diamond_desert_eagle", () -> new DiamondDesertEagleItem());
 	public static final RegistryObject<Item> GOLDEN_DESERT_EAGLE = REGISTRY.register("golden_desert_eagle", () -> new GoldenDesertEagleItem());
 	public static final RegistryObject<Item> HEAVY_DESERT_EAGLE = REGISTRY.register("heavy_desert_eagle", () -> new HeavyDesertEagleItem());
+
+	public static final RegistryObject<Item> AK47 = REGISTRY.register("ak47", () -> new AK47Item());
 }

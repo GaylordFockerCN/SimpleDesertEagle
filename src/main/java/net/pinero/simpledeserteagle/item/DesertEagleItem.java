@@ -176,8 +176,8 @@ public class DesertEagleItem extends Item implements GeoItem {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player entity, InteractionHand hand) {
-		//MouseHandler mouseHandler = Minecraft.getInstance().mouseHandler;
-		//if(!mouseHandler.isRightPressed()){
+//		MouseHandler mouseHandler = Minecraft.getInstance().mouseHandler;
+//		if(!mouseHandler.isRightPressed()){
 			DesertEagleRightClickAirProcedure.execute(world, entity, hand);
 		//}
 
@@ -260,7 +260,5 @@ public class DesertEagleItem extends Item implements GeoItem {
 		}
 
 	}
-
-
 
 }

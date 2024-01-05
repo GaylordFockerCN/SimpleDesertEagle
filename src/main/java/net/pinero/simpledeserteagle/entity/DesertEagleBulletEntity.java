@@ -109,6 +109,7 @@ public class DesertEagleBulletEntity extends AbstractArrow implements ItemSuppli
 
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
+		//TODO: 改成直接判断有无碰撞然后直接受伤，而不是调用父类的hit，不然射速快会受到原版生物的受伤冷却的影响导致吞子弹
 		final Vec3 position = this.position();
 		Entity entity = result.getEntity();
 		AABB boundingBox = entity.getBoundingBox();
